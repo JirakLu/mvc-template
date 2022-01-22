@@ -1,0 +1,13 @@
+.debugger {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    height: 50px;
+    width: 300px;
+    background: indianred;
+    color: white;
+    box-shadow: 0 0 5px 5px white, 0 0 10px 10px indianred;
+    border-radius: 1rem;
+    display: grid;
+    place-items: center;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head>
+    <?php
+        $res = explode("\\", __DIR__);
+        $file = $res[array_search("www", $res)+1];
+        echo "<base href=$file>"
+    ?>
+    <meta charset="UTF-8"/>
+    <title><?= $title ?></title>
+    <meta name="description" content="<?= $description ?>"/>
+    <meta name="keywords" content="<?= $keywords ?>"/>
+    <link rel="stylesheet" href="./Styles/normalize.css" type="text/css"/>
+    <link rel="stylesheet" href="./Styles/styles.css" type="text/css"/>
+</head>
+
+<body>
+    <main>
+        <?php $this->controller->renderView(); ?>
+    </main>
+    <?php if(true): ?>
+        <?php $this->debug(); ?>
+    <?php endif; ?>
+</body>
+</html>
