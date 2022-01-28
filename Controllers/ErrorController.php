@@ -3,7 +3,7 @@
 class ErrorController extends AController
 {
 
-    function process(array $url): void
+    public function process(array $url): void
     {
         $this->headers = [
             'title' => 'error',

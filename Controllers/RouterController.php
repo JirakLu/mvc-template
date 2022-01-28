@@ -3,7 +3,7 @@
 class RouterController extends AController
 {
 
-    static string $debugValue = '';
+    private static string $debugValue = '';
 
     /** @var object  */
     protected object $controller;
@@ -26,7 +26,7 @@ class RouterController extends AController
         return str_replace(' ', '', $text);
     }
 
-    function process(array $url): void
+    public function process(array $url): void
     {
         $parsedUrl = $this->parseUrl($url[0]);
 
@@ -50,12 +50,12 @@ class RouterController extends AController
 
     }
 
-    static function setDebug(string $value): void
+    public static function setDebug(string $value): void
     {
         RouterController::$debugValue = $value;
     }
 
-    static function debug(): void
+    public static function debug(): void
     {
         if (!empty(RouterController::$debugValue)) {
             $arr = ["value" => RouterController::$debugValue];

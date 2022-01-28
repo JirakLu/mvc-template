@@ -34,7 +34,7 @@ abstract class AController
     /**
      * @param array<int, string> $url
      */
-    abstract function process(array $url): void;
+    abstract public function process(array $url): void;
 
 
 }
