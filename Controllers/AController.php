@@ -14,12 +14,12 @@ abstract class AController
     public function renderView(): void
     {
         if ($this->view) {
-            if (file_exists("./Views/" . $this->view . ".phtml")) {
+            if (file_exists("../views/" . $this->view . ".phtml")) {
                 extract($this->data);
-                require("./Views/" . $this->view . ".phtml");
+                require("../views/" . $this->view . ".phtml");
             } else {
                 extract($this->data);
-                require("./Views/error.phtml");
+                require("../views/error.phtml");
             }
         }
     }

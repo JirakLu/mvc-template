@@ -3,11 +3,11 @@
         "phpstan/phpstan": "^1.4"
     },
     "scripts": {
-        "phpstan": ".\\vendor\\bin\\phpstan analyse -c .\\conf\\phpstan.neon "
+        "phpstan": ".\\vendor\\bin\\phpstan analyse -c .\\configs\\phpstan.neon "
     },
     "autoload": {
         "classmap": [
-            "Controllers", "Helpers", "Models", "Views"
+            "Controllers", "Models"
         ]
     }
 }

@@ -35,7 +35,7 @@ class RouterController extends AController
 
         $controllerClass = $this->camelCase(array_shift($parsedUrl) . "Controller");
 
-        if (file_exists("./Controllers/$controllerClass.php"))
+        if (file_exists(__DIR__ . "/$controllerClass.php"))
             $this->controller = new $controllerClass();
         else
             $this->redirect('error');
@@ -60,7 +60,7 @@ class RouterController extends AController
         if (!empty(RouterController::$debugValue)) {
             $arr = ["value" => RouterController::$debugValue];
             extract($arr);
-            require ("./Views/debug.phtml");
+            require("../views/debug.phtml");
         }
     }
 }

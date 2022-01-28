@@ -3,9 +3,8 @@ parameters:
     paths:
         - '%currentWorkingDirectory%/Controllers/'
         - '%currentWorkingDirectory%/Models/'
-        - '%currentWorkingDirectory%/Helpers/'
-        - '%currentWorkingDirectory%/Views/'
-        - '%currentWorkingDirectory%/index.php'
+        - '%currentWorkingDirectory%/views/'
+        - '%currentWorkingDirectory%/public/index.php'
 
     excludePaths:
         - '%currentWorkingDirectory%/vendor/*'
