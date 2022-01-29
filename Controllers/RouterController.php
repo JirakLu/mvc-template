@@ -3,8 +3,6 @@
 class RouterController extends AController
 {
 
-    private static string $debugValue = '';
-
     /** @var object  */
     protected object $controller;
 
@@ -48,20 +46,6 @@ class RouterController extends AController
 
         $this->view = 'template';
 
-    }
-
-    public static function setDebug(string $value): void
-    {
-        RouterController::$debugValue = $value;
-    }
-
-    public static function debug(): void
-    {
-        if (!empty(RouterController::$debugValue)) {
-            $arr = ["value" => RouterController::$debugValue];
-            extract($arr);
-            require("../views/debug.phtml");
-        }
     }
 }
 
