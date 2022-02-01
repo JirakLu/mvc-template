@@ -1,0 +1,7 @@
+routes:
+    \/home$:
+        defaults: "HomePresenter:default"
+    \/$:
+        defaults: "HomePresenter:default"
+    error:
+        defaults: "ErrorPresenter:default"

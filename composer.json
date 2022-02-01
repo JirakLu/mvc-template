@@ -7,7 +7,10 @@
     },
     "autoload": {
         "classmap": [
-            "Controllers", "Models"
+            "Controllers", "Models", "services"
         ]
+    },
+    "require": {
+        "nette/neon": "^3.3"
     }
 }
