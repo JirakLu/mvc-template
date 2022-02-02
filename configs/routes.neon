@@ -1,7 +1,16 @@
-routes:
-    \/home$:
-        defaults: "HomePresenter:default"
-    \/$:
-        defaults: "HomePresenter:default"
-    error:
-        defaults: "ErrorPresenter:default"
+
+"/":
+    defaults: "HomeController:render"
+
+"/home":
+    defaults: "HomeController:render"
+"/home/<param>":
+    defaults: "HomeController:list:param"
+
+"/articles":
+    defaults: "ArticlesController:mainArticle"
+"/articles/<param>":
+    defaults: "ArticlesController:articles:param"
+
+"/error/<param>":
+    defaults: "ErrorController:render:param"
