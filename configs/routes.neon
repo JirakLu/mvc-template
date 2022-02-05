@@ -4,7 +4,7 @@
 
 "/home":
     defaults: "HomeController:render"
-"/home/<param>":
+"/home/<param=1 {/^\\d+$/}>":
     defaults: "HomeController:list:param"
 
 "/articles":
@@ -12,5 +12,5 @@
 "/articles/<param>":
     defaults: "ArticlesController:articles:param"
 
-"/error/<param>":
+"/error/<param=404>":
     defaults: "ErrorController:render:param"

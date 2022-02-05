@@ -42,20 +42,37 @@ class Router {
         // dynamic URLs matching
         $splitActiveURL = explode("/", preg_replace("/^\//","",$this->activeURL));
         foreach ($this->routes["dynamic"] as $routeMatcher => $actions) {
-            $splitMatcherURL = explode("/", preg_replace("/^\//","",$routeMatcher));
+            $splitMatcherURL = preg_split("/(?<!{)\/(?![^\s{]*[}])/", preg_replace("/^\//","",$routeMatcher));
             $action = $actions["defaults"];
             $matched = false;
-            if (count($splitMatcherURL) === count($splitActiveURL)) {
+            if (count($splitMatcherURL) === count($splitActiveURL)) {;
                 foreach ($splitActiveURL as $key => $partActiveURL) {
                     $partMatcherURL = $splitMatcherURL[$key];
                     if ($partActiveURL !== $partMatcherURL && str_contains($partMatcherURL, '<')) {
-                        $action = str_replace(str_replace(['<','>'], '', $partMatcherURL), $partActiveURL, $action);
-                        $matched = true;
+                        preg_match("/(?<=<)\w+/",$partMatcherURL,$paramName);
+                        preg_match("/(?<==)\w+/",$partMatcherURL,$defaultValue);
+                        preg_match("/(?<={).+?(?=})/",$partMatcherURL,$regexMatcher);
+                        if (empty($partActiveURL) && !empty($defaultValue)) {
+                            $action = str_replace($paramName, $defaultValue, $action);
+                            $matched = true;
+                        } else if (!empty($partActiveURL) && !empty($regexMatcher)) {
+                            $matchedRegex = preg_match($regexMatcher[0], $partActiveURL);
+                            if ($matchedRegex) {
+                                $action = str_replace($paramName, $partActiveURL, $action);
+                                $matched = true;
+                            } else {
+                                throw new Error("Your url param did not match the regex - " . $regexMatcher[0]);
+                            }
+                        } else if(!empty($partActiveURL)){
+                            $action = str_replace($paramName, $partActiveURL, $action);
+                            $matched = true;
+                        } else {
+                            $matched = false;
+                        }
                     } else if ($partActiveURL !== $partMatcherURL) {
                         $matched = false;
                         break;
                     }
-                    $matched = true;
                 }
                 if ($matched) {
                     return $this->executeAction($action);
