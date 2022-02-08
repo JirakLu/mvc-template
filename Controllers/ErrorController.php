@@ -3,17 +3,14 @@
 class ErrorController extends AController
 {
 
-    public function render($param) {
-        echo "ErrorController:render:$param";
+    public function render505(): void
+    {
+        echo "ErrorController:render505";
     }
 
-    public function process(array $url): void
+    public function render404(): void
     {
-        $this->headers = [
-            'title' => 'error',
-            'keywords' => 'error',
-            'description' => 'page does not exist'
-        ];
-        $this->view = 'error';
+        echo "ErrorController:render404";
     }
+
 }

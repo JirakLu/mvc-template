@@ -3,21 +3,14 @@
 class HomeController extends AController
 {
 
-    public function render() {
+    public function render(): void
+    {
         echo "HomeController:render";
     }
 
-    public function list($param) {
+    public function list(string $param): void
+    {
         echo "HomeController:list:$param";
     }
 
-    public function process(array $url): void
-    {
-        $this->headers = [
-            'title' => 'home page',
-            'keywords' => 'home',
-            'description' => 'main page'
-        ];
-        $this->view = 'home';
-    }
 }

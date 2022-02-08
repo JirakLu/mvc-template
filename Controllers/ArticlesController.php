@@ -11,8 +11,4 @@ class ArticlesController extends AController
         echo "ArticlesController:articles:$param";
     }
 
-    public function process(array $url): void
-    {
-        // TODO: Implement process() method.
-    }
 }

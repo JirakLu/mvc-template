@@ -13,4 +13,4 @@
     defaults: "ArticlesController:articles:param"
 
 "/error/<param=404>":
-    defaults: "ErrorController:render:param"
+    defaults: "ErrorController:renderparam"

@@ -24,6 +24,7 @@ class Router {
     {
        $this->loadRouteConfig($configPath);
        $this->generateDefaults();
+       echo "<base href='{$this->generateBase()}'>";
     }
 
     /**
@@ -80,8 +81,7 @@ class Router {
             }
         }
 
-        return ["controller" => "ErrorController", "action" => "render", "params" => "404"];
-
+        return ["controller" => "ErrorController", "action" => "render404"];
     }
 
 
@@ -91,7 +91,7 @@ class Router {
      */
     public function generateBase(): string
     {
-        return "{$this->domain}{$this->basePath}";
+        return "{$this->domain}/{$this->basePath}";
     }
 
     /**
@@ -103,7 +103,21 @@ class Router {
     public function redirect(string $endPoint, int $statusCode = 303): void
     {
         header("Location: /{$this->basePath}/$endPoint",true,$statusCode);
-        die();
+        header("Connection: close");
+        exit();
+    }
+
+    /**
+     * redirects user to chosen controller without changing url
+     * @param class-string<AController> $controller
+     * @param string $action
+     * @param string|null $params
+     * @return void
+     */
+    public function forward(string $controller, string $action, ?string $params = ""): void
+    {
+        $action = $this->executeAction(implode(":",[$controller,$action,$params]));
+        (new $action["controller"]())->{$action["action"]}(array_key_exists("params",$action) ? $action["params"] : null);
     }
 
     /**
@@ -136,7 +150,7 @@ class Router {
         if ($this->actionExists($formattedAction)) {
             return $formattedAction;
         }
-        $this->redirect("/error/404");
+        $this->redirect("error/404");
         return null;
     }
 
@@ -170,7 +184,9 @@ class Router {
         if (count($splitAction) === 2 || count($splitAction) === 3) {
             if (count($splitAction) === 2) { // no params only => Controller:action
                 return ["controller" => $splitAction[0], "action" => $splitAction[1]];
-            } else { // has params => Controller:action:params
+            } else if ($splitAction[2] === ""){ // has empty params => Controller:action:
+                return ["controller" => $splitAction[0], "action" => $splitAction[1]];
+            } else {  // has params => Controller:action:params
                 return ["controller" => $splitAction[0], "action" => $splitAction[1], "params" => $splitAction[2]];
             }
         } else {
@@ -184,6 +200,9 @@ class Router {
     private function loadRouteConfig(string $configPath): void
     {
         // loading urls from config
+        if (!file_exists(dirname(__DIR__, 1) . $configPath)) {
+            throw new Error("Routes.neon config file does not exists in directory - " . dirname(__DIR__, 1) . $configPath);
+        }
         $config = Neon::decodeFile(dirname(__DIR__, 1) . $configPath);
 
         // setting up static routes
