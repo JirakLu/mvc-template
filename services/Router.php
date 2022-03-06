@@ -16,11 +16,14 @@ class Router {
     // www.example/mvcTemplate/<activeURL>
     private string $activeURL;
 
+    // prefix before params in routes.neon
+    private string $paramPrefix = "$";
+
 
     /**
      * @throws \Nette\Neon\Exception
      */
-    public function __construct(string $configPath = '/configs/routes.neon')
+    public function __construct(string $configPath = '/routes/routes.neon')
     {
        $this->loadRouteConfig($configPath);
        $this->generateDefaults();
@@ -53,16 +56,19 @@ class Router {
                         preg_match("/(?<=<)\w+/",$partMatcherURL,$paramName);
                         preg_match("/(?<==)\w+/",$partMatcherURL,$defaultValue);
                         preg_match("/(?<={).+?(?=})/",$partMatcherURL,$regexMatcher);
+                        $paramName = "{$this->paramPrefix}{$paramName[0]}";
+                        $defaultValue = $defaultValue ? $defaultValue[0] : null;
+                        $regexMatcher = $regexMatcher ? $regexMatcher[0] : null;
                         if (empty($partActiveURL) && !empty($defaultValue)) {
                             $action = str_replace($paramName, $defaultValue, $action);
                             $matched = true;
                         } else if (!empty($partActiveURL) && !empty($regexMatcher)) {
-                            $matchedRegex = preg_match($regexMatcher[0], $partActiveURL);
+                            $matchedRegex = preg_match($regexMatcher, $partActiveURL);
                             if ($matchedRegex) {
                                 $action = str_replace($paramName, $partActiveURL, $action);
                                 $matched = true;
                             } else {
-                                throw new Error("Your url param did not match the regex - " . $regexMatcher[0]);
+                                throw new Error("Your url param did not match the regex - " . $regexMatcher);
                             }
                         } else if(!empty($partActiveURL)){
                             $action = str_replace($paramName, $partActiveURL, $action);

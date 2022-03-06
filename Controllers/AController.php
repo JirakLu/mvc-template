@@ -19,9 +19,9 @@ abstract class AController
     public function renderView(): void
     {
         if ($this->view) {
-            if (file_exists("../views/" . $this->view . ".phtml")) {
+            if (file_exists("../resources/" . $this->view . ".phtml")) {
                 extract($this->data);
-                require("../views/" . $this->view . ".phtml");
+                require("../resources/" . $this->view . ".phtml");
             } else {
                 $this->router->redirect("/error/404");
             }

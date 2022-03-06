@@ -5,12 +5,12 @@
 "/home":
     defaults: "HomeController:render"
 "/home/<param=1 {/^\\d+$/}>":
-    defaults: "HomeController:list:param"
+    defaults: "HomeController:list:$param"
 
 "/articles":
     defaults: "ArticlesController:mainArticle"
 "/articles/<param>":
-    defaults: "ArticlesController:articles:param"
+    defaults: "ArticlesController:articles:$param"
 
 "/error/<param=404>":
-    defaults: "ErrorController:renderparam"
+    defaults: "ErrorController:render$param"
