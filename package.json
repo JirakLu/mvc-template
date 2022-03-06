@@ -1,0 +1,33 @@
+{
+  "name": "mvctemplate",
+  "version": "1.0.0",
+  "description": "PHP MVC model structure",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JirakLu/mvc-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JirakLu/mvc-template/issues"
+  },
+  "homepage": "https://github.com/JirakLu/mvc-template#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "laravel-mix": "^6.0.43",
+    "postcss": "^8.4.7",
+    "tailwindcss": "^3.0.23"
+  }
+}

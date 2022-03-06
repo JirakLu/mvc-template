@@ -7,7 +7,9 @@
     },
     "autoload": {
         "classmap": [
-            "Controllers", "Models", "services"
+            "./App/Controllers/",
+            "./App/Models/",
+            "./Services/"
         ]
     },
     "require": {

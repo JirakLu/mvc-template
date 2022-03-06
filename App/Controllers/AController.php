@@ -2,7 +2,7 @@
 
 abstract class AController
 {
-    /** @var array<string, string | string[]>  */
+    /** @var array<string, string | string[]> */
     protected array $data = [];
 
     /** @var string 'error'|'template'|'home' */
@@ -21,7 +21,7 @@ abstract class AController
         if ($this->view) {
             if (file_exists("../resources/" . $this->view . ".phtml")) {
                 extract($this->data);
-                require("../resources/" . $this->view . ".phtml");
+                require("../resources/" . $this->view . ".swift.php");
             } else {
                 $this->router->redirect("/error/404");
             }
