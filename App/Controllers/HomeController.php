@@ -5,7 +5,7 @@ class HomeController extends AController
 
     public function render(): void
     {
-        echo "HomeController:render";
+        $this->renderView("pages.index");
     }
 
     public function list(string $param): void

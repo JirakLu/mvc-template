@@ -1,31 +1,26 @@
 <?php
 
+use Jenssegers\Blade\Blade;
+
 abstract class AController
 {
-    /** @var array<string, string | string[]> */
-    protected array $data = [];
-
-    /** @var string 'error'|'template'|'home' */
-    protected string $view = '';
 
     /** @var Router */
-    private Router $router;
+    protected Router $router;
 
     public function __construct(Router $router = new Router())
     {
         $this->router = $router;
     }
 
-    public function renderView(): void
+    /** @param array<string, mixed> $params */
+    public function renderView(string $page, array $params = []): void
     {
-        if ($this->view) {
-            if (file_exists("../resources/" . $this->view . ".phtml")) {
-                extract($this->data);
-                require("../resources/" . $this->view . ".swift.php");
-            } else {
-                $this->router->redirect("/error/404");
-            }
-        }
+        $router = ["generateBase" => fn() => $this->router->generateBase(), "getActiveUrl" => fn() => $this->router->getActiveURL(), "createLink" => fn($link) => $this->router->createLink($link)];
+
+        $blade = new Blade(dirname(__DIR__, 2)."\\resources\\views", dirname(__DIR__, 2)."\\cache");
+
+        echo $blade->render("$page", array_merge($params, $router));
     }
 
 }

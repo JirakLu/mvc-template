@@ -27,7 +27,6 @@ class Router {
     {
        $this->loadRouteConfig($configPath);
        $this->generateDefaults();
-       echo "<base href='{$this->generateBase()}'>";
     }
 
     /**
@@ -97,7 +96,7 @@ class Router {
      */
     public function generateBase(): string
     {
-        return "{$this->domain}/{$this->basePath}";
+        return "http://{$this->domain}/{$this->basePath}/";
     }
 
     /**
@@ -133,7 +132,7 @@ class Router {
      */
     public function createLink(string $link): string
     {
-        return "{$this->basePath}/$link";
+        return "http://{$this->domain}/{$this->basePath}/$link";
     }
 
     /**

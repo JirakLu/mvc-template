@@ -13,6 +13,7 @@
         ]
     },
     "require": {
-        "nette/neon": "^3.3"
+        "nette/neon": "^3.3",
+        "jenssegers/blade": "^1.4"
     }
 }

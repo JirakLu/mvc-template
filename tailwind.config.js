@@ -1,6 +1,6 @@
 module.exports = {
   content: [
-    "./resources/**/*.swift.php",
+    "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
