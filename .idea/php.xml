@@ -5,7 +5,6 @@
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/nette/neon" />
-      <path value="$PROJECT_DIR$/vendor/latte/latte" />
       <path value="$PROJECT_DIR$/vendor/illuminate/filesystem" />
       <path value="$PROJECT_DIR$/vendor/illuminate/macroable" />
       <path value="$PROJECT_DIR$/vendor/illuminate/pipeline" />

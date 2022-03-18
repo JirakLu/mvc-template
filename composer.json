@@ -1,19 +1,20 @@
 {
-    "require-dev": {
-        "phpstan/phpstan": "^1.4"
-    },
-    "scripts": {
-        "phpstan": ".\\vendor\\bin\\phpstan analyse -c .\\configs\\phpstan.neon "
-    },
-    "autoload": {
-        "classmap": [
-            "./App/Controllers/",
-            "./App/Models/",
-            "./Services/"
-        ]
-    },
-    "require": {
-        "nette/neon": "^3.3",
-        "jenssegers/blade": "^1.4"
-    }
+  "require-dev": {
+    "phpstan/phpstan": "^1.4"
+  },
+  "scripts": {
+    "phpstan": ".\\vendor\\bin\\phpstan analyse -c .\\configs\\phpstan.neon "
+  },
+  "autoload": {
+    "classmap": [
+      "./App/Controllers/",
+      "./App/Models/",
+      "./Services/"
+    ]
+  },
+  "require": {
+    "nette/neon": "^3.3",
+    "jenssegers/blade": "^1.4",
+    "ext-pdo": "*"
+  }
 }
