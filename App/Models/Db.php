@@ -8,7 +8,7 @@ class Db
     public function __construct()
     {
         $this->connection = new PDO(
-            "mysql:host=localhost;dbname=clanky;charset=utf8mb4",
+            "mysql:host=localhost;dbname=test;charset=utf8mb4",
             "root",
             "",
             [
@@ -17,8 +17,6 @@ class Db
             ]
         );
     }
-
-    // TOTO JE 6 MATURITNÍCH OTÁZEK (NAUČIT!!!)
 
     /**
      * @param DbParam[] $params
