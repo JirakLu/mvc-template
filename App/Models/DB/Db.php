@@ -12,10 +12,10 @@ class Db
      */
     public function __construct()
     {
-        if (!file_exists(dirname(__DIR__, 2) . "/config/db.neon")) {
-            throw new Error("db.neon config file does not exists in directory - " . dirname(__DIR__, 2) . "/config/db.neon");
+        if (!file_exists(dirname(__DIR__, 3) . "/config/db.neon")) {
+            throw new Error("db.neon config file does not exists in directory - " . dirname(__DIR__, 3) . "/config/db.neon");
         }
-        $dbConfig = Neon::decodeFile(dirname(__DIR__, 2) . "/config/db.neon");
+        $dbConfig = Neon::decodeFile(dirname(__DIR__, 3) . "/config/db.neon");
 
         $this->connection = new PDO(
             $dbConfig["db"]["dsn"],
