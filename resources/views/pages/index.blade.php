@@ -4,4 +4,5 @@
     <div>Testing</div>
 
     <a href="{{$createLink("articles")}}">Adam je omegapepega</a>
+
 @endsection

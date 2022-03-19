@@ -9,15 +9,15 @@
     <title>I4NET</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="./public/css/app.css" type="text/css">
+    <link rel="stylesheet" href="{{$createLink("public/css/app.css")}}" type="text/css">
 
 </head>
 <body id="body">
-    <main class="overflow-hidden relative">
+    <main class="overflow-hidden relative h-full w-full">
         @include("components.header")
 
         @yield("content")
     </main>
-    <script src="./public/js/app.js" defer></script>
+    <script src="{{$createLink("public/js/app.js")}}" defer></script>
 </body>
 </html>

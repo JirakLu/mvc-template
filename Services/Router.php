@@ -107,7 +107,7 @@ class Router {
      */
     public function redirect(string $endPoint, int $statusCode = 303): void
     {
-        header("Location: /{$this->basePath}/$endPoint",true,$statusCode);
+        header("Location: http://{$this->domain}/{$this->basePath}/$endPoint",true,$statusCode);
         header("Connection: close");
         exit();
     }
