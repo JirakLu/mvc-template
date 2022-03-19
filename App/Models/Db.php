@@ -1,16 +1,26 @@
 <?php
 
+use Nette\Neon\Neon;
+
 class Db
 {
 
     private PDO $connection;
 
+    /**
+     * @throws \Nette\Neon\Exception
+     */
     public function __construct()
     {
+        if (!file_exists(dirname(__DIR__, 2) . "/config/db.neon")) {
+            throw new Error("db.neon config file does not exists in directory - " . dirname(__DIR__, 2) . "/config/db.neon");
+        }
+        $dbConfig = Neon::decodeFile(dirname(__DIR__, 2) . "/config/db.neon");
+
         $this->connection = new PDO(
-            "mysql:host=localhost;dbname=test;charset=utf8mb4",
-            "root",
-            "",
+            $dbConfig["db"]["dsn"],
+            $dbConfig["db"]["username"],
+            $dbConfig["db"]["password"],
             [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::MYSQL_ATTR_MULTI_STATEMENTS => false
@@ -19,7 +29,11 @@ class Db
     }
 
     /**
+     * Gets one row of the select from DB.
+     * @param string $sql
+     * @param class-string $className
      * @param DbParam[] $params
+     * @return object|bool
      * @throws Exception
      */
     public function getOne(string $sql, string $className, array $params = []): object|bool
@@ -38,9 +52,12 @@ class Db
     }
 
     /**
+     * Gets all rows of the select from DB.
+     * @param string $sql
+     * @param class-string $className
      * @param DbParam[] $params
      * @throws Exception
-     * @return array<string, object> | bool
+     * @return array<int, object> | bool
      */
     public function getAll(string $sql, string $className, array $params = []): array|bool
     {
@@ -59,7 +76,10 @@ class Db
     }
 
     /**
+     * Gets one value from DB.
+     * @param string $sql
      * @param DbParam[] $params
+     * @return mixed
      * @throws Exception
      */
     public function getValue(string $sql, array $params = []): mixed
@@ -77,7 +97,10 @@ class Db
     }
 
     /**
+     * Executes SQL command. Useful for (UPDATE, INSERT, DROP,...)
+     * @param string $sql
      * @param DbParam[] $params
+     * @return int
      * @throws Exception
      */
     public function exec(string $sql, array $params = []): int
@@ -94,9 +117,9 @@ class Db
         return $stmt->rowCount();
     }
 
-    public function lastInsertID(): int
+    public function lastInsertID(): string|bool
     {
-        return 1;
+        return $this->connection->lastInsertId();
     }
 
 

@@ -3,6 +3,7 @@
 class HomeController extends AController
 {
 
+
     public function render(): void
     {
         $this->renderView("pages.index");
