@@ -66,11 +66,14 @@ abstract class AController
      */
     protected function renderView(string $view, array $params = []): void
     {
-        $router = ["generateBase" => fn() => $this->router->generateBase(), "getActiveUrl" => fn() => $this->router->getActiveURL(), "createLink" => fn($link) => $this->router->createLink($link)];
+        $router = [ "generateBase" => fn() => $this->router->generateBase(),
+                    "getActiveUrl" => fn() => $this->router->getActiveURL(),
+                    "createLink" => fn($link) => $this->router->createLink($link)];
 
         $blade = new Blade(dirname(__DIR__, 2)."\\resources\\views", dirname(__DIR__, 2)."\\cache");
 
-        echo $blade->render($view, array_merge($params, $router));
+        echo $blade->make($view, array_merge($params, $router))->render();
     }
+
 
 }
