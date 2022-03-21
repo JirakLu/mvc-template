@@ -9,7 +9,7 @@
     <title>I4NET</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{$createLink("public/css/app.css")}}" type="text/css">
+    <link rel="stylesheet" href="{{ mix("css/app.css") }}" type="text/css">
 
 </head>
 <body id="body">
@@ -18,6 +18,6 @@
 
         @yield("content")
     </main>
-    <script src="{{$createLink("public/js/app.js")}}" defer></script>
+    <script src="{{ mix("js/app.js") }}" defer></script>
 </body>
 </html>
