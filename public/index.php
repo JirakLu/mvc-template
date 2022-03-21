@@ -1,6 +1,8 @@
 <?php
 
-require dirname(__DIR__, 1) . '/vendor/autoload.php';
+use Services\Router;
+
+require __DIR__.'/../vendor/autoload.php';
 
 $router = new Router();
 $action = $router->findRoute();

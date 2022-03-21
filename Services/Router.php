@@ -1,5 +1,11 @@
 <?php
 
+namespace Services;
+
+
+use App\Controllers\AController;
+use Error;
+use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
 class Router {
@@ -21,7 +27,7 @@ class Router {
 
 
     /**
-     * @throws \Nette\Neon\Exception
+     * @throws Exception
      */
     public function __construct(string $configPath = '/routes/routes.neon')
     {
@@ -86,7 +92,7 @@ class Router {
             }
         }
 
-        return ["controller" => "ErrorController", "action" => "render404"];
+        return ["controller" => "App\Controllers\ErrorController", "action" => "render404"];
     }
 
 
@@ -188,11 +194,11 @@ class Router {
 
         if (count($splitAction) === 2 || count($splitAction) === 3) {
             if (count($splitAction) === 2) { // no params only => Controller:action
-                return ["controller" => $splitAction[0], "action" => $splitAction[1]];
+                return ["controller" => "App\Controllers\\$splitAction[0]", "action" => $splitAction[1]];
             } else if ($splitAction[2] === ""){ // has empty params => Controller:action:
-                return ["controller" => $splitAction[0], "action" => $splitAction[1]];
+                return ["controller" => "App\Controllers\\$splitAction[0]", "action" => $splitAction[1]];
             } else {  // has params => Controller:action:params
-                return ["controller" => $splitAction[0], "action" => $splitAction[1], "params" => $splitAction[2]];
+                return ["controller" => "App\Controllers\\$splitAction[0]", "action" => $splitAction[1], "params" => $splitAction[2]];
             }
         } else {
             throw new Error("Action - " . $action . " is not valid");
@@ -200,7 +206,7 @@ class Router {
     }
 
     /**
-     * @throws \Nette\Neon\Exception
+     * @throws Exception
      */
     private function loadRouteConfig(string $configPath): void
     {

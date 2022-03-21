@@ -1,6 +1,10 @@
 <?php
 
+namespace App\Controllers;
+
+use Error;
 use Jenssegers\Blade\Blade;
+use Services\Router;
 
 abstract class AController
 {

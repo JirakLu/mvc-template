@@ -6,10 +6,12 @@
     "phpstan": ".\\vendor\\bin\\phpstan analyse -c .\\configs\\phpstan.neon "
   },
   "autoload": {
-    "classmap": [
-      "./App/Controllers/",
-      "./App/Models/",
-      "./Services/"
+    "psr-4": {
+      "App\\": "App/",
+      "Services\\": "Services/"
+    },
+    "files": [
+      "App/helpers.php"
     ]
   },
   "require": {

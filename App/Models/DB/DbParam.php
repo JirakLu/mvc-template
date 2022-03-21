@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models\DB;
+
+use PDO;
+
 class DbParam{
 
     public string $name;

@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Models;
+
+use App\Models\DB\Db;
+use stdClass;
+
 class ArticleModel
 {
 

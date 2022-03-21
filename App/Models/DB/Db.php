@@ -1,14 +1,18 @@
 <?php
 
+namespace App\Models\DB;
+
+use Error;
+use Nette\Neon\Exception;
 use Nette\Neon\Neon;
+use PDO;
 
 class Db
 {
-
     private PDO $connection;
 
     /**
-     * @throws \Nette\Neon\Exception
+     * @throws Exception
      */
     public function __construct()
     {

@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Models\ArticleModel;
+
 class HomeController extends AController
 {
-
-
     public function render(): void
     {
         $model = new ArticleModel();
