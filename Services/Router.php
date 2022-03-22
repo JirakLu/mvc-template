@@ -5,12 +5,14 @@ namespace Services;
 
 use App\Controllers\AController;
 use Error;
+use Jenssegers\Blade\Blade;
 use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
-class Router {
+class Router
+{
 
-    /** @var array{static: array<string, array<String>>,dynamic: array<string, array<String>>}  */
+    /** @var array{static: array<string, array<String>>,dynamic: array<string, array<String>>} */
     private array $routes;
 
     // <domain>/mvcTemplate/controller/...
@@ -31,8 +33,8 @@ class Router {
      */
     public function __construct(string $configPath = '/routes/routes.neon')
     {
-       $this->loadRouteConfig($configPath);
-       $this->generateDefaults();
+        $this->loadRouteConfig($configPath);
+        $this->generateDefaults();
     }
 
     /**
@@ -49,18 +51,19 @@ class Router {
         }
 
         // dynamic URLs matching
-        $splitActiveURL = explode("/", preg_replace("/^\//","",$this->activeURL));
+        $splitActiveURL = explode("/", preg_replace("/^\//", "", $this->activeURL));
         foreach ($this->routes["dynamic"] as $routeMatcher => $actions) {
-            $splitMatcherURL = preg_split("/(?<!{)\/(?![^\s{]*[}])/", preg_replace("/^\//","",$routeMatcher));
+            $splitMatcherURL = preg_split("/(?<!{)\/(?![^\s{]*[}])/", preg_replace("/^\//", "", $routeMatcher));
             $action = $actions["defaults"];
             $matched = false;
-            if (count($splitMatcherURL) === count($splitActiveURL)) {;
+            if (count($splitMatcherURL) === count($splitActiveURL)) {
+                ;
                 foreach ($splitActiveURL as $key => $partActiveURL) {
                     $partMatcherURL = $splitMatcherURL[$key];
                     if ($partActiveURL !== $partMatcherURL && str_contains($partMatcherURL, '<')) {
-                        preg_match("/(?<=<)\w+/",$partMatcherURL,$paramName);
-                        preg_match("/(?<==)\w+/",$partMatcherURL,$defaultValue);
-                        preg_match("/(?<={).+?(?=})/",$partMatcherURL,$regexMatcher);
+                        preg_match("/(?<=<)\w+/", $partMatcherURL, $paramName);
+                        preg_match("/(?<==)\w+/", $partMatcherURL, $defaultValue);
+                        preg_match("/(?<={).+?(?=})/", $partMatcherURL, $regexMatcher);
                         $paramName = "{$this->paramPrefix}{$paramName[0]}";
                         $defaultValue = $defaultValue ? $defaultValue[0] : null;
                         $regexMatcher = $regexMatcher ? $regexMatcher[0] : null;
@@ -75,7 +78,7 @@ class Router {
                             } else {
                                 throw new Error("Your url param did not match the regex - " . $regexMatcher);
                             }
-                        } else if(!empty($partActiveURL)){
+                        } else if (!empty($partActiveURL)) {
                             $action = str_replace($paramName, $partActiveURL, $action);
                             $matched = true;
                         } else {
@@ -113,7 +116,7 @@ class Router {
      */
     public function redirect(string $endPoint, int $statusCode = 303): void
     {
-        header("Location: http://{$this->domain}/{$this->basePath}/$endPoint",true,$statusCode);
+        header("Location: http://{$this->domain}/{$this->basePath}/$endPoint", true, $statusCode);
         header("Connection: close");
         exit();
     }
@@ -122,13 +125,15 @@ class Router {
      * redirects user to chosen controller without changing url
      * @param class-string<AController> $controller
      * @param string $action
+     * @param Router $router
+     * @param Blade $blade
      * @param string|null $params
      * @return void
      */
-    public function forward(string $controller, string $action, ?string $params = ""): void
+    public function forward(string $controller, string $action, Router $router, Blade $blade, ?string $params = ""): void
     {
-        $action = $this->executeAction(implode(":",[$controller,$action,$params]));
-        (new $action["controller"]())->{$action["action"]}(array_key_exists("params",$action) ? $action["params"] : null);
+        $action = $this->executeAction(implode(":", [$controller, $action, $params]));
+        (new $action["controller"]($router, $blade))->{$action["action"]}(array_key_exists("params", $action) ? $action["params"] : null);
     }
 
     /**
@@ -173,14 +178,10 @@ class Router {
     private function actionExists(array $actions): bool
     {
         if (class_exists($actions["controller"])) {
-            $class = new $actions["controller"]();
-            if (!method_exists($class, $actions["action"])) {
-                throw new Error("Method - ". $actions["action"] . " on controller - " . $actions["controller"] . " does not exist.");
-            }
+            return true;
         } else {
-            throw new Error("Controller - ". $actions["controller"] . " does not exist.");
+            throw new Error("Controller - " . $actions["controller"] . " does not exist.");
         }
-        return true;
     }
 
     /**
@@ -195,7 +196,7 @@ class Router {
         if (count($splitAction) === 2 || count($splitAction) === 3) {
             if (count($splitAction) === 2) { // no params only => Controller:action
                 return ["controller" => "App\Controllers\\$splitAction[0]", "action" => $splitAction[1]];
-            } else if ($splitAction[2] === ""){ // has empty params => Controller:action:
+            } else if ($splitAction[2] === "") { // has empty params => Controller:action:
                 return ["controller" => "App\Controllers\\$splitAction[0]", "action" => $splitAction[1]];
             } else {  // has params => Controller:action:params
                 return ["controller" => "App\Controllers\\$splitAction[0]", "action" => $splitAction[1], "params" => $splitAction[2]];
@@ -218,21 +219,21 @@ class Router {
 
         // setting up static routes
         $this->routes["static"] = array_filter($config, function ($key) {
-            return !str_contains($key,'<');
+            return !str_contains($key, '<');
         }, ARRAY_FILTER_USE_KEY);
 
         // setting up dynamic routes
         $this->routes["dynamic"] = array_filter($config, function ($key) {
-            return str_contains($key,'<');
+            return str_contains($key, '<');
         }, ARRAY_FILTER_USE_KEY);
     }
 
     private function generateDefaults(): void
     {
         $this->domain = $_SERVER['HTTP_HOST'];
-        $dirname = explode("\\",dirname(__DIR__));
-        $this->basePath = $dirname[count($dirname)-1] === "www" ? "" : $dirname[count($dirname)-1];
-        $this->activeURL = str_replace("/".$this->basePath,"",$_SERVER["REQUEST_URI"]);
+        $dirname = explode("\\", dirname(__DIR__));
+        $this->basePath = $dirname[count($dirname) - 1] === "www" ? "" : $dirname[count($dirname) - 1];
+        $this->activeURL = str_replace("/" . $this->basePath, "", $_SERVER["REQUEST_URI"]);
     }
 
 }

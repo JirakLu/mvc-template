@@ -11,6 +11,7 @@ class HomeController extends AController
         $model = new ArticleModel();
         $data = $model->getUsers();
         $this->renderView("pages.index", ["data" => $data]);
+        $this->forward("ErrorController", "render404");
     }
 
     public function list(string $param): void

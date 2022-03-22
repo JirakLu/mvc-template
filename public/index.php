@@ -1,10 +1,8 @@
 <?php
 
-use Services\Router;
+use App\Kernel;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$router = new Router();
-$action = $router->findRoute();
-
-(new $action["controller"]($router))->{$action["action"]}(array_key_exists("params",$action) ? $action["params"] : null);
+$kernel = new Kernel();
+$kernel->listen();

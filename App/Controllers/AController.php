@@ -12,9 +12,13 @@ abstract class AController
     /** @var Router */
     private Router $router;
 
-    public function __construct(Router $router = new Router())
+    /** @var Blade */
+    private Blade $blade;
+
+    public function __construct(Router $router, Blade $blade)
     {
         $this->router = $router;
+        $this->blade = $blade;
     }
 
     /**
@@ -38,7 +42,7 @@ abstract class AController
      */
     protected function forward(string $controller, string $action, ?string $params = ""): void
     {
-        $this->router->forward($controller, $action, $params);
+        $this->router->forward($controller, $action, $this->router, $this->blade, $params);
     }
 
     /**
@@ -74,9 +78,7 @@ abstract class AController
                     "getActiveUrl" => fn() => $this->router->getActiveURL(),
                     "createLink" => fn($link) => $this->router->createLink($link)];
 
-        $blade = new Blade(dirname(__DIR__, 2)."\\resources\\views", dirname(__DIR__, 2)."\\cache");
-
-        echo $blade->make($view, array_merge($params, $router))->render();
+        echo $this->blade->make($view, array_merge($params, $router))->render();
     }
 
 
